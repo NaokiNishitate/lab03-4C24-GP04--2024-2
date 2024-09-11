@@ -3,69 +3,51 @@ package com.tecsup.lab03.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-// Clase que representa el informe de estudiantes
 public class StudentReport {
 
-    // Clase interna para representar a un Estudiante
-    public static class Student {
-        private String name;
-        private int age;
-        private double grade;
+    // Clase interna para representar un estudiante
+    static class Student {
+        String name;
+        double grade;
 
-        // Constructor del estudiante
-        public Student(String name, int age, double grade) {
+        Student(String name, double grade) {
             this.name = name;
-            this.age = age;
             this.grade = grade;
         }
-
-        // Getters para obtener la información del estudiante
-        public String getName() {
-            return name;
-        }
-
-        public int getAge() {
-            return age;
-        }
-
-        public double getGrade() {
-            return grade;
-        }
     }
 
-    // Lista para almacenar los estudiantes
-    private List<Student> students;
+    // Lista de estudiantes
+    List<Student> students = new ArrayList<>();
 
-    // Constructor que inicializa la lista de estudiantes
-    public StudentReport() {
-        students = new ArrayList<>();
+    // Método para agregar un estudiante
+    public void addStudent(String name, double grade) {
+        students.add(new Student(name, grade));
     }
 
-    // Método para agregar un estudiante al reporte
-    public void addStudent(String name, int age, double grade) {
-        Student student = new Student(name, age, grade);
-        students.add(student);
+    // Método para calcular el promedio de las notas
+    public double calculateAverageGrade() {
+        double total = 0;
+        for (Student student : students) {
+            total += student.grade;
+        }
+        return (students.size() > 0) ? total / students.size() : 0;
     }
 
-    // Método para imprimir el reporte de estudiantes
+    // Método para mostrar el reporte
     public void printReport() {
         System.out.println("===== Reporte de Estudiantes =====");
         for (Student student : students) {
-            System.out.println("Nombre: " + student.getName());
-            System.out.println("Edad: " + student.getAge());
-            System.out.println("Nota: " + student.getGrade());
-            System.out.println("---------------------------------");
+            System.out.println("Nombre: " + student.name + " | Nota: " + student.grade);
         }
+        System.out.println("Número total de estudiantes: " + students.size());
+        System.out.printf("Promedio de notas: %.2f\n", calculateAverageGrade());
     }
 
-    // Método principal para ejecutar el reporte como ejemplo
     public static void main(String[] args) {
         StudentReport report = new StudentReport();
-
-        // Agregar algunos estudiantes al reporte
-        report.addStudent("Juan Pérez", 20, 18.5);
-        report.addStudent("Ana Gómez", 22, 19.0);
-        report.addStudent("Luis Torres", 21, 17.8);
+        report.addStudent("Juan Pérez", 18.5);
+        report.addStudent("Ana Gómez", 19.0);
+        report.addStudent("Luis Torres", 17.8);
 
         // Imprimir el reporte
         report.printReport();
